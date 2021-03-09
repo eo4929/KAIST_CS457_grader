@@ -1,6 +1,8 @@
 students = []
+input_filename = 'chat_cs457_lec1_20210304.txt'
+outout_filename = 'out_participation_0304.csv'
 
-with open('students.csv', 'r') as f:
+with open('students_cs457.csv', 'r', encoding='utf-8') as f:
     f.readline()
 
     while True:
@@ -11,8 +13,6 @@ with open('students.csv', 'r') as f:
         students.append({
             'id': items[2],
             'name': items[3],
-            'email': items[5],
-            'alias': items[6],
             'participation': 0
         })
 
@@ -22,10 +22,9 @@ for i in range(len(students)): # checking same rows (students)
             print('!!!!!!!!!!!!!!!!!!!!!!!!!', i, j)
         if students[i]['name'] == students[j]['name']:
             print('!!!!!!!!!!!!!!!!!!!!!!!!!', i, j)
-        if students[i]['email'] == students[j]['email']:
-            print('!!!!!!!!!!!!!!!!!!!!!!!!!', i, j)
+        
 
-with open('in_participation.txt', 'r', encoding='UTF8') as f:
+with open(input_filename, 'r', encoding='UTF8') as f:
     lines = f.readlines()
 
 print('len(line): ', len(lines))
@@ -64,17 +63,14 @@ for i in range(len(new_lines)):
             elif students[j]['id'].strip() in new_lines[i]:
                 students[j]['participation'] += 1
                 check = True
-            elif students[j]['alias'].strip() in new_lines[i]:
-                students[j]['participation'] += 1
-                check = True
             
             if check == True:
                 break
-        if not check:
+        if not check: # zoom 유저 네임에 id나 실제 name(student_cs457.csv 상) 관련된 게 없으면 일로 간다->수작업으로 참가점수 카운팅하기 위한 코드
             print(new_lines[i])
 
 
-with open('out_participation.csv', 'w') as f:
+with open(outout_filename, 'w') as f:
     for student in students:
         #f.write(student['id'] + ',' + student['name'] + ',' + str(student['participation']) + '\n')
         f.write(student['id'] + ',' + str(student['participation']) + '\n')
